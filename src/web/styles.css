@@ -2,10 +2,12 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start;
+    min-height: 100vh;
     margin: 0;
+    padding: 20px;
     transition: background-color 0.3s, color 0.3s;
+    box-sizing: border-box;
 }
 
 .dark-theme {
@@ -22,6 +24,39 @@ body {
     position: relative;
     max-width: 800px;
     width: 100%;
+    margin-right: 20px;
+}
+
+#leaderboardContainer {
+    background-color: #2a2a2a;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    width: 250px;
+    position: sticky;
+    top: 20px;
+}
+
+#leaderboardList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#leaderboardList li {
+    background-color: #3a3a3a;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#leaderboardList li span:first-child {
+    font-weight: bold;
+    margin-right: 10px;
 }
 
 button {

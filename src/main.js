@@ -46,6 +46,13 @@ server.post("/db_read", (req, res) => {
     return
 })
 
+server.get("/get_leaderboard", async (req, res) => {
+    const scores = await db.read("score")
+    if (!scores) return res.status(403);
+    res.status(200).json(scores)
+    return
+})
+
 // Nowy endpoint do sprawdzania i kupowania ulepszeń
 server.post("/buy_upgrade", (req, res) => {
     const { playerName, upgradeType } = req.body;
@@ -70,7 +77,13 @@ server.post("/buy_upgrade", (req, res) => {
             cost = Math.floor(50 * Math.pow(2, playerData.multipliers || 0));
             break;
         case 'goldenMouse':
-            cost = Math.floor(200 * Math.pow(2, playerData.goldenMice || 0));
+            cost = Math.floor(200 * Math.pow(2.5, playerData.goldenMice || 0));
+            break;
+        case 'luckyCoin':
+            cost = Math.floor(500 * Math.pow(3, playerData.goldenMice || 0));
+            break;
+        case 'timeWarp':
+            cost = Math.floor(1000 * Math.pow(5, playerData.goldenMice || 0));
             break;
         default:
             res.status(400).json({ message: 'Invalid upgrade type' });

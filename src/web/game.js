@@ -28,6 +28,8 @@ const inventorySection = document.getElementById('inventorySection');
 const inventoryList = document.getElementById('inventoryList');
 const playerNameSpan = document.getElementById('playerName');
 const earningAnimationContainer = document.getElementById('earningAnimationContainer');
+const leaderboardList = document.getElementById('leaderboardList');
+const refreshleaderboard = document.getElementById('refreshButton');
 
 const autoClickerCostElement = document.getElementById('autoClickerCost');
 const autoClickerOwnedElement = document.getElementById('autoClickerOwned');
@@ -82,7 +84,7 @@ function updateShop() {
     luckyCoinOwnedElement.textContent = scaleNumber(luckyCoins);
     timeWarpOwnedElement.textContent = scaleNumber(timeWarps);
 
-    autoClickerCostElement.textContent = scaleNumber(Math.floor(10 * Math.pow(1.5, autoClickers)));
+    autoClickerCostElement.textContent = scaleNumber(Math.floor(10 * Math.pow(2, autoClickers)));
     multiplierCostElement.textContent = scaleNumber(Math.floor(50 * Math.pow(2, multipliers)));
     goldenMouseCostElement.textContent = scaleNumber(Math.floor(200 * Math.pow(2.5, goldenMice)));
     luckyCoinCostElement.textContent = scaleNumber(Math.floor(500 * Math.pow(3, luckyCoins)));
@@ -98,8 +100,38 @@ function updateInventory() {
     });
 }
 
+async function updateLeaderboard() {
+    try {
+        let response = await fetch("get_leaderboard", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch leaderboard");
+        }
+
+        let leaderboardData = await response.json();
+        leaderboardList.innerHTML = '';
+
+        // Zamiana obiektu na tablicę [nazwa, daneGracza]
+        let players = Object.entries(leaderboardData);
+
+        players.forEach(([name, playerData], index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span>${index + 1}. ${name}</span> <span>${scaleNumber(playerData.score)}</span>`;
+            leaderboardList.appendChild(li);
+        });
+    } catch (error) {
+        console.error("Error updating leaderboard:", error);
+    }
+}
+
+
 function startAutoSave() {
-    saveInterval = setInterval(saveGame, 6000); // Save every 10s
+    saveInterval = setInterval(saveGame, 60000); // Save every minute
 }
 
 function stopAutoSave() {
@@ -134,6 +166,7 @@ async function saveGame() {
         }
 
         console.log("Game saved successfully");
+        updateLeaderboard();
     } catch (error) {
         console.error("Error saving game:", error);
         alert("Failed to save game. Please try again.");
@@ -216,6 +249,7 @@ async function authenticate(isSignup) {
         loadGame();
         startAutoSave();
         startAutoClicker();
+        updateLeaderboard();
     } catch (error) {
         console.error("Authentication error:", error);
         alert(isSignup ? "Signup failed. Please try again." : "Login failed. Please check your credentials.");
@@ -304,6 +338,9 @@ async function buyUpgrade(type) {
         });
 
         if (!response.ok) {
+            console.log(response)
+            console.log(type)
+            console.log(currentPlayer)
             throw new Error("Purchase failed");
         }
 
@@ -333,6 +370,7 @@ async function buyUpgrade(type) {
         updateScore();
         updateShop();
         console.log("Upgrade purchased successfully");
+        saveGame();
     } catch (error) {
         console.error("Error purchasing upgrade:", error);
         alert("Failed to purchase upgrade. Please try again.");
@@ -348,6 +386,7 @@ shopButton.addEventListener('click', () => {
     shopSection.style.display = 'block';
     inventorySection.style.display = 'none';
 });
+refreshleaderboard.addEventListener('click', updateLeaderboard)
 inventoryButton.addEventListener('click', () => {
     inventorySection.style.display = 'block';
     shopSection.style.display = 'none';
@@ -364,3 +403,7 @@ buyTimeWarpButton.addEventListener('click', () => buyUpgrade('timeWarp'));
 updateScore();
 updateShop();
 updateInventory();
+updateLeaderboard();
+
+// Update leaderboard every 1 minutes
+setInterval(updateLeaderboard, 60000);
