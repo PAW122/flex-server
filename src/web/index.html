@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+    <div class="game-container">
+        <h1>Clicker Game</h1>
+        <div id="authSection">
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button id="loginButton">Login</button>
+            <button id="signupButton">Sign Up</button>
+        </div>
+        <div id="gameSection" style="display: none;">
+            <p>Welcome, <span id="playerName"></span>!</p>
+            <p>Score: <span id="score">0</span></p>
+            <button id="clickButton">Click Me!</button>
+            <button id="shopButton">Shop</button>
+            <button id="inventoryButton">Inventory</button>
+            <button id="logoutButton">Logout</button>
+            <button id="saveButton" class="corner-button">Save</button>
+            
+            <div id="shopSection" style="display: none;">
+                <h2>Shop</h2>
+                <div class="shop-items">
+                    <div class="shop-item">
+                        <h3>Auto Clicker</h3>
+                        <p>Clicks automatically every second</p>
+                        <p>Cost: <span id="autoClickerCost">10</span></p>
+                        <p>Owned: <span id="autoClickerOwned">0</span></p>
+                        <button id="buyAutoClicker">Buy</button>
+                    </div>
+                    <div class="shop-item">
+                        <h3>Click Multiplier</h3>
+                        <p>Increases click value</p>
+                        <p>Cost: <span id="multiplierCost">50</span></p>
+                        <p>Owned: <span id="multiplierOwned">0</span></p>
+                        <button id="buyMultiplier">Buy</button>
+                    </div>
+                    <div class="shop-item">
+                        <h3>Golden Mouse</h3>
+                        <p>5% chance of getting 10x clicks</p>
+                        <p>Cost: <span id="goldenMouseCost">200</span></p>
+                        <p>Owned: <span id="goldenMouseOwned">0</span></p>
+                        <button id="buyGoldenMouse">Buy</button>
+                    </div>
+                    <div class="shop-item">
+                        <h3>Lucky Coin</h3>
+                        <p>Increases chance of critical clicks</p>
+                        <p>Cost: <span id="luckyCoinCost">500</span></p>
+                        <p>Owned: <span id="luckyCoinOwned">0</span></p>
+                        <button id="buyLuckyCoin">Buy</button>
+                    </div>
+                    <div class="shop-item">
+                        <h3>Time Warp</h3>
+                        <p>Speeds up auto-clickers</p>
+                        <p>Cost: <span id="timeWarpCost">1000</span></p>
+                        <p>Owned: <span id="timeWarpOwned">0</span></p>
+                        <button id="buyTimeWarp">Buy</button>
+                    </div>
+                </div>
+                <button id="closeShop">Close Shop</button>
+            </div>
+            <div id="inventorySection" style="display: none;">
+                <h2>Inventory</h2>
+                <ul id="inventoryList"></ul>
+                <button id="closeInventory">Close Inventory</button>
+            </div>
+        </div>
+    </div>
+    <div id="earningAnimationContainer"></div>
+    <script src="game.js"></script>
+</body>
+</html>

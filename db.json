@@ -1,0 +1,18 @@
+{
+  "users": {
+    "Pawiu": {
+      "password": "test"
+    }
+  },
+  "score": {
+    "Pawiu": {
+      "score": 606.25,
+      "autoClickers": 3,
+      "multipliers": 2,
+      "goldenMice": 0,
+      "luckyCoins": 0,
+      "timeWarps": 0,
+      "inventory": []
+    }
+  }
+}
