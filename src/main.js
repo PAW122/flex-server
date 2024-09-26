@@ -47,12 +47,29 @@ server.post("/db_read", (req, res) => {
 })
 
 server.get("/get_leaderboard", async (req, res) => {
-    const scores = await db.read("score")
-    if (!scores) return res.status(403);
-    res.status(200).json(scores)
-    return
-})
+    const scores = await db.read("score");
+    if (!scores) return res.status(403).send("No scores found");
 
+    // Przekształcenie obiektu w tablicę
+    const scoresArray = Object.entries(scores).map(([name, data]) => ({
+        name,
+        score: data.score,
+        ...data // Możesz dodać inne właściwości, jeśli chcesz
+    }));
+
+    // Sortowanie wyników od największego do najmniejszego
+    scoresArray.sort((a, b) => b.score - a.score);
+
+    // Dodawanie numeracji do wyników
+    const leaderboard = scoresArray.map((player, index) => ({
+        rank: index + 1, // Numeracja zaczyna się od 1
+        name: player.name,
+        score: player.score,
+        ...player // Możesz dodać inne właściwości, jeśli chcesz
+    }));
+
+    res.status(200).json(leaderboard);
+});
 // Nowy endpoint do sprawdzania i kupowania ulepszeń
 server.post("/buy_upgrade", (req, res) => {
     const { playerName, upgradeType } = req.body;
@@ -76,14 +93,14 @@ server.post("/buy_upgrade", (req, res) => {
         case 'multiplier':
             cost = Math.floor(50 * Math.pow(2, playerData.multipliers || 0));
             break;
-        case 'goldenMouse':
-            cost = Math.floor(200 * Math.pow(2.5, playerData.goldenMice || 0));
+        case 'goldenMices':
+            cost = Math.floor(200 * Math.pow(3, playerData.goldenMices || 0));
             break;
         case 'luckyCoin':
-            cost = Math.floor(500 * Math.pow(3, playerData.goldenMice || 0));
+            cost = Math.floor(500 * Math.pow(3, playerData.luckyCoins || 0));
             break;
         case 'timeWarp':
-            cost = Math.floor(1000 * Math.pow(5, playerData.goldenMice || 0));
+            cost = Math.floor(1000 * Math.pow(5, playerData.timeWarps || 0));
             break;
         default:
             res.status(400).json({ message: 'Invalid upgrade type' });
@@ -96,8 +113,23 @@ server.post("/buy_upgrade", (req, res) => {
     }
 
     // Aktualizacja danych gracza
-    playerData.score -= cost;
-    playerData[upgradeType + 's'] = (playerData[upgradeType + 's'] || 0) + 1;
+    if (upgradeType === "goldenMices") {
+             playerData.score -= cost;
+             playerData["goldenMices"] = (playerData["goldenMices"] || 0) + 1;
+             // Zapisanie zaktualizowanych danych
+        db.write(`score.${playerName}`, playerData);
+
+        res.status(200).json({ 
+            message: 'Upgrade purchased successfully', 
+            newScore: playerData.score,
+            newUpgradeCount: playerData[upgradeType]
+        });
+        return
+    } else {
+            playerData.score -= cost;
+    playerData[upgradeType + 's'] = (playerData[upgradeType + 's'] || 0) + 1;        
+    }
+
 
     // Zapisanie zaktualizowanych danych
     db.write(`score.${playerName}`, playerData);
