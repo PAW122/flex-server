@@ -4,7 +4,7 @@ let saveInterval = null;
 let clickValue = 1;
 let autoClickers = 0;
 let multipliers = 0;
-let goldenMice = 0;
+let goldenMices = 0;
 let luckyCoins = 0;
 let timeWarps = 0;
 let inventory = [];
@@ -48,6 +48,7 @@ const buyGoldenMouseButton = document.getElementById('buyGoldenMouse');
 const buyLuckyCoinButton = document.getElementById('buyLuckyCoin');
 const buyTimeWarpButton = document.getElementById('buyTimeWarp');
 
+
 function scaleNumber(number) {
     const suffixes = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     let scale = 0;
@@ -80,13 +81,13 @@ function updateScore() {
 function updateShop() {
     autoClickerOwnedElement.textContent = scaleNumber(autoClickers);
     multiplierOwnedElement.textContent = scaleNumber(multipliers);
-    goldenMouseOwnedElement.textContent = scaleNumber(goldenMice);
+    goldenMouseOwnedElement.textContent = scaleNumber(goldenMices);
     luckyCoinOwnedElement.textContent = scaleNumber(luckyCoins);
     timeWarpOwnedElement.textContent = scaleNumber(timeWarps);
 
     autoClickerCostElement.textContent = scaleNumber(Math.floor(10 * Math.pow(2, autoClickers)));
     multiplierCostElement.textContent = scaleNumber(Math.floor(50 * Math.pow(2, multipliers)));
-    goldenMouseCostElement.textContent = scaleNumber(Math.floor(200 * Math.pow(2.5, goldenMice)));
+    goldenMouseCostElement.textContent = scaleNumber(Math.floor(200 * Math.pow(3, goldenMices)));
     luckyCoinCostElement.textContent = scaleNumber(Math.floor(500 * Math.pow(3, luckyCoins)));
     timeWarpCostElement.textContent = scaleNumber(Math.floor(1000 * Math.pow(5, timeWarps)));
 }
@@ -116,12 +117,10 @@ async function updateLeaderboard() {
         let leaderboardData = await response.json();
         leaderboardList.innerHTML = '';
 
-        // Zamiana obiektu na tablicę [nazwa, daneGracza]
-        let players = Object.entries(leaderboardData);
-
-        players.forEach(([name, playerData], index) => {
+        // Iteracja przez dane liderów
+        leaderboardData.forEach(player => {
             const li = document.createElement('li');
-            li.innerHTML = `<span>${index + 1}. ${name}</span> <span>${scaleNumber(playerData.score)}</span>`;
+            li.innerHTML = `<span>${player.rank}. ${player.name}</span> <span>${scaleNumber(player.score)}</span>`;
             leaderboardList.appendChild(li);
         });
     } catch (error) {
@@ -131,7 +130,7 @@ async function updateLeaderboard() {
 
 
 function startAutoSave() {
-    saveInterval = setInterval(saveGame, 60000); // Save every minute
+    saveInterval = setInterval(saveGame, 1200); // Save every minute
 }
 
 function stopAutoSave() {
@@ -153,7 +152,7 @@ async function saveGame() {
                     score: score,
                     autoClickers: autoClickers,
                     multipliers: multipliers,
-                    goldenMice: goldenMice,
+                    goldenMices: goldenMices,
                     luckyCoins: luckyCoins,
                     timeWarps: timeWarps,
                     inventory: inventory
@@ -196,10 +195,11 @@ async function loadGame() {
             score = body.data.score || 0;
             autoClickers = body.data.autoClickers || 0;
             multipliers = body.data.multipliers || 0;
-            goldenMice = body.data.goldenMice || 0;
+            goldenMices = body.data.goldenMices || 0;
             luckyCoins = body.data.luckyCoins || 0;
             timeWarps = body.data.timeWarps || 0;
             inventory = body.data.inventory || [];
+            console.log(body.data)
             updateScore();
             updateShop();
             updateInventory();
@@ -261,7 +261,7 @@ function logout() {
     score = 0;
     autoClickers = 0;
     multipliers = 0;
-    goldenMice = 0;
+    goldenMices = 0;
     luckyCoins = 0;
     timeWarps = 0;
     inventory = [];
@@ -292,9 +292,27 @@ function showEarningAnimation(amount, x, y) {
     }, 1000);
 }
 
+let clickCount = 0;
+let lastClickTime = Date.now();
+
 function click(event) {
+    const currentTime = Date.now();
+    
+    // Sprawdź, czy minęła sekunda od ostatniego resetu
+    if (currentTime - lastClickTime >= 1000) {
+        clickCount = 0; // Resetuj licznik kliknięć
+        lastClickTime = currentTime; // Zaktualizuj czas ostatniego resetu
+    }
+
+    clickCount++; // Zwiększ licznik kliknięć
+
+    // Sprawdź, czy liczba kliknięć przekracza 10
+    if (clickCount > 10) {
+        return; // Nie zwiększaj wyniku
+    }
+
     let increment = clickValue * (Math.pow(1.5, multipliers));
-    if (Math.random() < 0.05 * goldenMice) {
+    if (Math.random() < 0.05 * goldenMices) {
         increment *= 10;
     }
     if (Math.random() < 0.01 * luckyCoins) {
@@ -354,8 +372,8 @@ async function buyUpgrade(type) {
             case 'multiplier':
                 multipliers = result.newUpgradeCount;
                 break;
-            case 'goldenMouse':
-                goldenMice = result.newUpgradeCount;
+            case 'goldenMices':
+                goldenMices = result.newUpgradeCount;
                 break;
             case 'luckyCoin':
                 luckyCoins = result.newUpgradeCount;
@@ -396,7 +414,7 @@ closeInventoryButton.addEventListener('click', () => inventorySection.style.disp
 
 buyAutoClickerButton.addEventListener('click', () => buyUpgrade('autoClicker'));
 buyMultiplierButton.addEventListener('click', () => buyUpgrade('multiplier'));
-buyGoldenMouseButton.addEventListener('click', () => buyUpgrade('goldenMouse'));
+buyGoldenMouseButton.addEventListener('click', () => buyUpgrade('goldenMices'));
 buyLuckyCoinButton.addEventListener('click', () => buyUpgrade('luckyCoin'));
 buyTimeWarpButton.addEventListener('click', () => buyUpgrade('timeWarp'));
 
