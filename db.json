@@ -1,17 +1,98 @@
 {
   "users": {
+    "Dyzio": {
+      "password": "Ksiezyc"
+    },
     "Pawiu": {
-      "password": "test"
+      "password": "123"
+    },
+    "civik": {
+      "password": "pies1234"
+    },
+    "civik przestan klikac": {
+      "password": "123"
+    },
+    "civik2": {
+      "password": "pies12"
+    },
+    "BEB": {
+      "password": "2137"
+    },
+    "BEB nie masz prawa wozić rybki na klapie": {
+      "password": "123"
     }
   },
   "score": {
-    "Pawiu": {
-      "score": 81469.26656250044,
-      "autoClickers": 12,
-      "multipliers": 7,
-      "goldenMice": 1,
+    "123": {
+      "score": 10,
+      "autoClickers": 0,
+      "multipliers": 0,
+      "goldenMices": 0,
       "luckyCoins": 0,
-      "timeWarps": 2,
+      "timeWarps": 0,
+      "inventory": []
+    },
+    "Dyzio": {
+      "score": 10845424276935.178,
+      "autoClickers": 42,
+      "multipliers": 40,
+      "goldenMices": 23,
+      "luckyCoins": 23,
+      "timeWarps": 15,
+      "inventory": []
+    },
+    "Pawiu": {
+      "score": 157899763739.9084,
+      "autoClickers": 39,
+      "multipliers": 37,
+      "goldenMices": 20,
+      "luckyCoins": 16,
+      "timeWarps": 14,
+      "inventory": []
+    },
+    "civik": {
+      "score": 1627701439616.0032,
+      "autoClickers": 38,
+      "multipliers": 36,
+      "goldenMices": 21,
+      "luckyCoins": 20,
+      "timeWarps": 14,
+      "inventory": []
+    },
+    "civik przestan klikac": {
+      "score": 0,
+      "autoClickers": 0,
+      "multipliers": 0,
+      "goldenMices": 0,
+      "luckyCoins": 0,
+      "timeWarps": 0,
+      "inventory": []
+    },
+    "civik2": {
+      "score": 3830199.7187680528,
+      "autoClickers": 18,
+      "multipliers": 16,
+      "goldenMices": 9,
+      "luckyCoins": 8,
+      "timeWarps": 5,
+      "inventory": []
+    },
+    "BEB": {
+      "score": 5217288152534.457,
+      "autoClickers": 35,
+      "multipliers": 35,
+      "goldenMices": 21,
+      "luckyCoins": 19,
+      "timeWarps": 13,
+      "inventory": []
+    },
+    "BEB nie masz prawa wozić rybki na klapie": {
+      "score": 0,
+      "autoClickers": 0,
+      "multipliers": 0,
+      "goldenMices": 0,
+      "luckyCoins": 0,
+      "timeWarps": 0,
       "inventory": []
     }
   }
