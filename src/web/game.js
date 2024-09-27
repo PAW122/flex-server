@@ -49,6 +49,43 @@ const buyLuckyCoinButton = document.getElementById('buyLuckyCoin');
 const buyTimeWarpButton = document.getElementById('buyTimeWarp');
 
 
+// ======CHAT
+    // chat
+ const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendChatButton = document.getElementById('sendChatButton');
+
+ // Funkcja do odczytywania wiadomości
+        const readMessages = async () => {
+            const response = await fetch('/read_msg');
+            const messages = await response.json();
+            chatMessages.innerHTML = messages.map(msg => `<div>${msg}</div>`).join('');
+        };
+
+        // Funkcja do wysyłania wiadomości
+        const sendMessage = async () => {
+            const message = chatInput.value;
+            if (message) {
+                await fetch('/send_msg', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message }),
+                });
+                chatInput.value = ''; // Wyczyść pole tekstowe
+                readMessages(); // Odśwież wiadomości
+            }
+        };
+
+        sendChatButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+// ======CHAT
+
 function scaleNumber(number) {
     const suffixes = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     let scale = 0;
@@ -123,6 +160,8 @@ async function updateLeaderboard() {
             li.innerHTML = `<span>${player.rank}. ${player.name}</span> <span>${scaleNumber(player.score)}</span>`;
             leaderboardList.appendChild(li);
         });
+
+        readMessages()
     } catch (error) {
         console.error("Error updating leaderboard:", error);
     }
