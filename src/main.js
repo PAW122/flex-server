@@ -1,12 +1,16 @@
 import express from "npm:express";
 import process from "node:process";
 import {Database} from "./datrabase/db.js"
+import fs from "node:fs";
+
 
 const server = express();
 const port = 3000;
 
 const db = new Database("./db.json")
 db.init()
+const chatHistoryFile = './chat_history.txt';
+loadChatHistory()
 
 const frontFolder = process.cwd() + "/src/web";
 server.use("/", express.static(frontFolder))
@@ -17,6 +21,27 @@ server.get("/", (_req, res) => {
 
 // Middleware do parsowania JSON
 server.use(express.json());
+
+let messages = [];
+const filePath = "./chat_history.json";
+// Endpoint do wysyłania wiadomości
+server.post("/send_msg", (req, res) => {
+    const { message } = req.body;
+    if (message) {
+        messages.push(message)
+         saveToFile();
+        res.status(200).json({ status: 'Message sent' });
+    } else {
+        res.status(400).json({ status: 'Message cannot be empty' });
+    }
+});
+
+// Endpoint do odczytywania wiadomości
+server.get("/read_msg", (req, res) => {
+     readFile((chatHistory) => {
+        res.status(200).json(chatHistory);
+    });
+});
 
 server.post('/db_save', (req, res) => {
     const body = req.body;
@@ -140,5 +165,37 @@ server.post("/buy_upgrade", (req, res) => {
         newUpgradeCount: playerData[upgradeType + 's']
     });
 });
+
+// Funkcja do zapisywania wiadomości do pliku
+function saveToFile() {
+    fs.writeFile(chatHistoryFile, messages.join('\n'), (err) => {
+        if (err) {
+            console.error('Error saving to file:', err);
+        } else {
+            console.log('Chat history saved to file.');
+        }
+    });
+}
+
+// Funkcja do odczytywania wiadomości z pliku
+function readFile(callback) {
+    fs.readFile(chatHistoryFile, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading file:', err);
+            callback([]);
+        } else {
+            const chatHistory = data.split('\n').filter(Boolean); // Filtruje puste linie
+            callback(chatHistory);
+        }
+    });
+}
+
+// Funkcja do ładowania historii czatu
+function loadChatHistory() {
+    readFile((chatHistory) => {
+        messages.push(...chatHistory); // Dodaje wczytane wiadomości do tablicy
+        console.log('Chat history loaded:', messages);
+    });
+}
 
 server.listen(port)
