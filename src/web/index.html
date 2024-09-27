@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="dark-theme">
+    <div id="chatContainer">
+        <h2>Live Chat</h2>
+        <div id="chatMessages"></div>
+        <input type="text" id="chatInput" placeholder="Type your message...">
+        <button id="sendChatButton">Send</button>
+    </div>
     <div class="game-container">
         <h1>Clicker Game</h1>
         <div id="authSection">
@@ -75,9 +81,9 @@
     <div id="leaderboardContainer">
         <h2>Leaderboard</h2>
         <ul id="leaderboardList"></ul>
-        <button id="refreshButton" class="corner-button">Refresh</button>
     </div>
     <div id="earningAnimationContainer"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
     <script src="game.js"></script>
 </body>
 </html>

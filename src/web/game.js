@@ -48,6 +48,47 @@ const buyGoldenMouseButton = document.getElementById('buyGoldenMouse');
 const buyLuckyCoinButton = document.getElementById('buyLuckyCoin');
 const buyTimeWarpButton = document.getElementById('buyTimeWarp');
 
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const sendChatButton = document.getElementById('sendChatButton');
+
+// Socket.io setup
+const socket = io();
+
+socket.on('chat message', function(msg) {
+    addChatMessage(msg);
+});
+
+function addChatMessage(msg) {
+    const messageElement = document.createElement('div');
+    messageElement.className =  'chat-message';
+    messageElement.innerHTML = `
+        <span class="username">${msg.username}:</span>
+        <span class="message">${msg.message}</span>
+        <span class="timestamp">${new Date(msg.timestamp).toLocaleTimeString()}</span>
+    `;
+    chatMessages.appendChild(messageElement);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+sendChatButton.addEventListener('click', function() {
+    if (chatInput.value && currentPlayer) {
+        const message = {
+            username: currentPlayer,
+            message: chatInput.value,
+            timestamp: Date.now()
+        };
+        socket.emit('chat message', message);
+        chatInput.value = '';
+    }
+});
+
+chatInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        sendChatButton.click();
+    }
+});
+
 function scaleNumber(number) {
     const suffixes = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     let scale = 0;
