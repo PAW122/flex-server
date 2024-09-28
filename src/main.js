@@ -19,6 +19,10 @@ server.get("/", (_req, res) => {
     return res.sendFile(process.cwd() + "/src/web/index.html")
 })
 
+server.get("/canvas", (req, res ) => {
+    return res.sendFile(process.cwd() + "/src/web/art.html")
+})
+
 // Middleware do parsowania JSON
 server.use(express.json());
 
@@ -113,10 +117,10 @@ server.post("/buy_upgrade", (req, res) => {
     let cost;
     switch(upgradeType) {
         case 'autoClicker':
-            cost = Math.floor(10 * Math.pow(2, playerData.autoClickers || 0));
+            cost = Math.floor(10 * Math.pow(1.6, playerData.autoClickers || 0));
             break;
         case 'multiplier':
-            cost = Math.floor(50 * Math.pow(2, playerData.multipliers || 0));
+            cost = Math.floor(50 * Math.pow(1.6, playerData.multipliers || 0));
             break;
         case 'goldenMices':
             cost = Math.floor(200 * Math.pow(3, playerData.goldenMices || 0));
