@@ -51,9 +51,9 @@ const buyTimeWarpButton = document.getElementById('buyTimeWarp');
 
 // ======CHAT
     // chat
- const chatMessages = document.getElementById('chatMessages');
-        const chatInput = document.getElementById('chatInput');
-        const sendChatButton = document.getElementById('sendChatButton');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const sendChatButton = document.getElementById('sendChatButton');
 
  // Funkcja do odczytywania wiadomości
         const readMessages = async () => {
@@ -122,8 +122,8 @@ function updateShop() {
     luckyCoinOwnedElement.textContent = scaleNumber(luckyCoins);
     timeWarpOwnedElement.textContent = scaleNumber(timeWarps);
 
-    autoClickerCostElement.textContent = scaleNumber(Math.floor(10 * Math.pow(2, autoClickers)));
-    multiplierCostElement.textContent = scaleNumber(Math.floor(50 * Math.pow(2, multipliers)));
+    autoClickerCostElement.textContent = scaleNumber(Math.floor(10 * Math.pow(1.6, autoClickers)));
+    multiplierCostElement.textContent = scaleNumber(Math.floor(50 * Math.pow(1.6, multipliers)));
     goldenMouseCostElement.textContent = scaleNumber(Math.floor(200 * Math.pow(3, goldenMices)));
     luckyCoinCostElement.textContent = scaleNumber(Math.floor(500 * Math.pow(3, luckyCoins)));
     timeWarpCostElement.textContent = scaleNumber(Math.floor(1000 * Math.pow(5, timeWarps)));
@@ -380,6 +380,7 @@ function stopAutoClicker() {
 }
 
 async function buyUpgrade(type) {
+    console.log("buy-actions")
     if (!currentPlayer) return;
 
     try {
@@ -443,7 +444,7 @@ shopButton.addEventListener('click', () => {
     shopSection.style.display = 'block';
     inventorySection.style.display = 'none';
 });
-refreshleaderboard.addEventListener('click', updateLeaderboard)
+// refreshleaderboard.addEventListener('click', updateLeaderboard)
 inventoryButton.addEventListener('click', () => {
     inventorySection.style.display = 'block';
     shopSection.style.display = 'none';
