@@ -33,8 +33,8 @@
       "inventory": []
     },
     "Dyzio": {
-      "score": 10845424276935.178,
-      "autoClickers": 42,
+      "score": 8477371225245.766,
+      "autoClickers": 59,
       "multipliers": 40,
       "goldenMices": 23,
       "luckyCoins": 23,
@@ -42,21 +42,21 @@
       "inventory": []
     },
     "Pawiu": {
-      "score": 328667804308.90454,
-      "autoClickers": 39,
-      "multipliers": 39,
-      "goldenMices": 20,
-      "luckyCoins": 16,
-      "timeWarps": 14,
+      "score": 1.1804689367172196e+33,
+      "autoClickers": 153,
+      "multipliers": 151,
+      "goldenMices": 63,
+      "luckyCoins": 62,
+      "timeWarps": 42,
       "inventory": []
     },
     "civik": {
-      "score": 1860743948123.7493,
-      "autoClickers": 38,
-      "multipliers": 36,
-      "goldenMices": 21,
-      "luckyCoins": 20,
-      "timeWarps": 14,
+      "score": 1.148882277957367e+31,
+      "autoClickers": 147,
+      "multipliers": 144,
+      "goldenMices": 60,
+      "luckyCoins": 59,
+      "timeWarps": 40,
       "inventory": []
     },
     "civik przestan klikac": {
@@ -78,12 +78,12 @@
       "inventory": []
     },
     "BEB": {
-      "score": 2190182232658.7925,
-      "autoClickers": 36,
-      "multipliers": 37,
-      "goldenMices": 21,
-      "luckyCoins": 20,
-      "timeWarps": 13,
+      "score": 4.618192431024352e+35,
+      "autoClickers": 162,
+      "multipliers": 166,
+      "goldenMices": 68,
+      "luckyCoins": 66,
+      "timeWarps": 44,
       "inventory": []
     },
     "BEB nie masz prawa wozić rybki na klapie": {
@@ -95,5 +95,26 @@
       "timeWarps": 0,
       "inventory": []
     }
+  },
+  "chat_history": {
+    "0": [
+      "a",
+      "a",
+      "a",
+      "e",
+      "a",
+      "e",
+      "e"
+    ],
+    "1": [
+      "l",
+      "l",
+      "l"
+    ],
+    "2": [
+      "o",
+      "o",
+      "o"
+    ]
   }
 }
